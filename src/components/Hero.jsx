@@ -1,5 +1,162 @@
 import { Menu, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+
+function DotsNetwork() {
+  const canvasRef = useRef(null);
+  const rafRef = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    let dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    let width = 0;
+    let height = 0;
+
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      width = Math.floor(rect.width);
+      height = Math.floor(rect.height);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // softer rendering
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+    };
+
+    // Generate nodes
+    const nodes = [];
+    const makeNodes = () => {
+      nodes.length = 0;
+      const area = Math.max(1, width * height);
+      // Density tuned for premium subtlety and perf
+      const baseCount = Math.round(Math.min(120, area / 12000));
+      for (let i = 0; i < baseCount; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height * 0.7; // keep below nav
+        const speed = 0.08 + Math.random() * 0.18;
+        const angle = Math.random() * Math.PI * 2;
+        nodes.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          r: 0.8 + Math.random() * 1.1,
+        });
+      }
+    };
+
+    const gradient = () => {
+      const g = ctx.createLinearGradient(0, 0, width, height);
+      g.addColorStop(0, "#22D3EE");
+      g.addColorStop(1, "#A78BFA");
+      return g;
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw connections
+      ctx.save();
+      ctx.globalAlpha = 0.08; // very subtle lines
+      ctx.strokeStyle = gradient();
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist2 = dx * dx + dy * dy;
+          const max = 110; // connection radius
+          if (dist2 < max * max) {
+            const t = 1 - Math.sqrt(dist2) / max;
+            ctx.globalAlpha = 0.05 + t * 0.12; // fade by distance
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.restore();
+
+      // Draw dots
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(255,255,255,0.25)"; // soft white
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // soft glow accents sparsely
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < Math.min(6, nodes.length); i++) {
+        const n = nodes[(i * 13) % nodes.length];
+        const rad = n.r * 3;
+        const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, rad);
+        g.addColorStop(0, "rgba(34,211,238,0.15)");
+        g.addColorStop(1, "rgba(124,58,237,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, rad, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    };
+
+    const step = () => {
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        // gentle wrap with damping to avoid edges feeling hard
+        if (n.x < -10) n.x = width + 10;
+        if (n.x > width + 10) n.x = -10;
+        if (n.y < -10) n.y = height * 0.7 + 10;
+        if (n.y > height * 0.7 + 10) n.y = -10;
+      }
+      draw();
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    const init = () => {
+      resize();
+      makeNodes();
+      draw();
+      if (!prefersReduced) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = requestAnimationFrame(step);
+      }
+    };
+
+    const onResize = () => {
+      resize();
+      makeNodes();
+      draw();
+    };
+
+    window.addEventListener("resize", onResize);
+    init();
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 -z-15 pointer-events-none opacity-70"
+      style={{ mixBlendMode: "screen" }}
+      aria-hidden
+    />
+  );
+}
 
 export default function Hero() {
   return (
@@ -23,6 +180,10 @@ export default function Hero() {
           backgroundPosition: "-1px -1px, -1px -1px",
         }}
       />
+
+      {/* Premium dots + connections layer */}
+      <DotsNetwork />
+
       {/* Soft bottom fade to visually merge with next section (no dividers) */}
       <div className="absolute inset-x-0 bottom-0 h-64 -z-10 bg-gradient-to-t from-[#0B0D10] to-transparent" />
 
