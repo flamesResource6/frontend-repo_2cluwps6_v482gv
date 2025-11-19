@@ -6,14 +6,14 @@ import CTA from './components/CTA';
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-[#0B0D10] text-white">
       {/* Integrated nav lives inside Hero */}
       <Hero />
       <Features />
       <UseCases />
       <Pricing />
       <CTA />
-      <footer className="bg-slate-950 border-t border-white/10">
+      <footer className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-10 flex items-center justify-between text-sm text-white/60">
           <div>© {new Date().getFullYear()} FlowForge AI. All rights reserved.</div>
           <div className="flex gap-6">
