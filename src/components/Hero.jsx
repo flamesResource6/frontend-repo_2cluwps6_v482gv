@@ -320,7 +320,7 @@ export default function Hero() {
       </div>
 
       {/* Hero content – same content size, more vertical real estate */}
-      <div className="mx-auto max-w-7xl px-6 pb-20 pt-16 md:pt-20">
+      <div className="mx-auto max-w-7xl px-6 pb-20 pt-24 md:pt-32">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
