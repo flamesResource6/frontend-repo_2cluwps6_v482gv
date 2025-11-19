@@ -269,7 +269,7 @@ export default function Hero() {
 
       {/* Integrated Navbar */}
       <div className="mx-auto max-w-7xl px-6 pt-6">
-        <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 backdrop-blur-2xl px-4 py-2.5 shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset,0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+        <div className="flex items-center justify-between">
           {/* Brand */}
           <a href="#" className="group inline-flex items-center gap-3">
             <div className="relative">
