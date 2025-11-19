@@ -1,4 +1,4 @@
-import { Menu, Sparkles, ShieldCheck, ChevronDown } from "lucide-react";
+import { Menu, Sparkles, ShieldCheck, ChevronDown, Rocket } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
@@ -13,7 +13,7 @@ export default function Navbar() {
             <div className="relative">
               <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-fuchsia-500/70 to-sky-400/70 blur-md opacity-40 group-hover:opacity-70 transition" />
               <div className="relative grid h-10 w-10 place-items-center rounded-xl bg-slate-950 ring-1 ring-white/10 shadow-inner shadow-black/40">
-                <Sparkles className="h-5 w-5 text-white" />
+                <Rocket className="h-5 w-5 text-white" />
               </div>
             </div>
             <div className="leading-tight">
