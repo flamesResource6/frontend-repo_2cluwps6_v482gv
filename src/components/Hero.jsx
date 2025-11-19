@@ -36,10 +36,10 @@ function DotsNetwork() {
       nodes.length = 0;
       const area = Math.max(1, width * height);
       // Density tuned for premium subtlety and perf
-      const baseCount = Math.round(Math.min(150, area / 11000));
+      const baseCount = Math.round(Math.min(170, area / 10000));
       for (let i = 0; i < baseCount; i++) {
         const x = Math.random() * width;
-        const y = Math.random() * height * 0.8; // below nav but fuller coverage
+        const y = Math.random() * height; // full coverage
         const speed = 0.06 + Math.random() * 0.16;
         const angle = Math.random() * Math.PI * 2;
         nodes.push({
@@ -71,7 +71,7 @@ function DotsNetwork() {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const dist2 = dx * dx + dy * dy;
-          const max = 120; // connection radius
+          const max = 130; // connection radius
           if (dist2 < max * max) {
             const t = 1 - Math.sqrt(dist2) / max;
             ctx.globalAlpha = 0.05 + t * 0.12; // fade by distance
@@ -95,9 +95,9 @@ function DotsNetwork() {
       // soft glow accents sparsely
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
-      for (let i = 0; i < Math.min(8, nodes.length); i++) {
+      for (let i = 0; i < Math.min(10, nodes.length); i++) {
         const n = nodes[(i * 13) % nodes.length];
-        const rad = n.r * 3;
+        const rad = n.r * 3.2;
         const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, rad);
         g.addColorStop(0, "rgba(34,211,238,0.15)");
         g.addColorStop(1, "rgba(124,58,237,0)");
@@ -116,8 +116,8 @@ function DotsNetwork() {
         // gentle wrap with damping to avoid edges feeling hard
         if (n.x < -10) n.x = width + 10;
         if (n.x > width + 10) n.x = -10;
-        if (n.y < -10) n.y = height * 0.8 + 10;
-        if (n.y > height * 0.8 + 10) n.y = -10;
+        if (n.y < -10) n.y = height + 10;
+        if (n.y > height + 10) n.y = -10;
       }
       draw();
       rafRef.current = requestAnimationFrame(step);
@@ -160,7 +160,7 @@ function DotsNetwork() {
 
 export default function Hero() {
   return (
-    <header className="relative isolate overflow-hidden min-h-[88vh] md:min-h-[92vh]">
+    <header className="relative isolate overflow-hidden min-h-[96vh] md:min-h-screen">
       {/* Background: layered dark with aurora glows and grid */}
       <div className="absolute inset-0 -z-30 bg-[#0B0D10]" />
       <div
@@ -187,29 +187,29 @@ export default function Hero() {
       {/* Soft bottom fade to visually merge with next section (no dividers) */}
       <div className="absolute inset-x-0 bottom-0 h-72 -z-10 bg-gradient-to-t from-[#0B0D10] to-transparent" />
 
-      {/* Animated aurora sweeps with cyan+violet */}
+      {/* Animated aurora sweeps with cyan+violet – full coverage */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -inset-x-40 -top-56 -z-10 h-[70vh]"
+        className="pointer-events-none absolute inset-0 -z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.12, 0.24, 0.12] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
         style={{
           background:
             "conic-gradient(from 90deg at 50% 50%, rgba(34,211,238,0.14), rgba(167,139,250,0.14), rgba(124,58,237,0.12), transparent)",
-          filter: "blur(80px)",
+          filter: "blur(100px)",
         }}
       />
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/4 -z-10 h-[50vh]"
+        className="pointer-events-none absolute inset-0 -z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.08, 0.18, 0.08] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
         style={{
           background:
             "radial-gradient(60%_60%_at_20%_30%, rgba(34,211,238,0.10), transparent), radial-gradient(50%_50%_at_80%_40%, rgba(167,139,250,0.10), transparent)",
-          filter: "blur(60px)",
+          filter: "blur(80px)",
         }}
       />
 
