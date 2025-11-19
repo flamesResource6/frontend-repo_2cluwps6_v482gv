@@ -1,23 +1,86 @@
-import Spline from '@splinetool/react-spline';
-import { motion } from 'framer-motion';
+import { Menu, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative h-[86vh] md:h-[92vh] w-full overflow-hidden">
-      {/* 3D background */}
-      <div className="absolute inset-0">
-        <Spline scene="https://prod.spline.design/LU2mWMPbF3Qi1Qxh/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+    <header className="relative isolate overflow-hidden">
+      {/* Background: premium dark gradient with subtle grid and glow */}
+      <div className="absolute inset-0 -z-10 bg-slate-950" />
+      <div
+        className="absolute inset-0 -z-10 opacity-[0.08]"
+        style={{
+          background:
+            "radial-gradient(60%_40%_at_50%_-10%,#60a5fa33,transparent),radial-gradient(40%_30%_at_80%_0%,#a78bfa22,transparent)",
+          mixBlendMode: "screen",
+        }}
+      />
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "40px 40px, 40px 40px",
+          backgroundPosition: "-1px -1px, -1px -1px",
+        }}
+      />
+      <div className="absolute inset-x-0 bottom-0 h-40 -z-10 bg-gradient-to-t from-slate-950 to-transparent" />
+
+      {/* Integrated Navbar */}
+      <div className="mx-auto max-w-7xl px-6 pt-6">
+        <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-4 py-2 shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset,0_20px_60px_-20px_rgba(0,0,0,0.6)]">
+          {/* Brand */}
+          <a href="#" className="group inline-flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-fuchsia-500/70 to-sky-400/70 blur-md opacity-35 group-hover:opacity-60 transition" />
+              <div className="relative grid h-10 w-10 place-items-center rounded-xl bg-slate-950 ring-1 ring-white/10 shadow-inner shadow-black/40">
+                <Sparkles className="h-5 w-5 text-white" />
+              </div>
+            </div>
+            <div className="leading-tight">
+              <span className="text-white font-semibold tracking-tight">FlowForge AI</span>
+              <div className="text-[11px] text-white/60">Automation Studio</div>
+            </div>
+          </a>
+
+          {/* Links */}
+          <nav className="hidden md:flex items-center gap-1 text-sm">
+            {[
+              { href: "#features", label: "Features" },
+              { href: "#usecases", label: "Use cases" },
+              { href: "#pricing", label: "Pricing" },
+            ].map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="px-3 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <motion.a
+              href="#demo"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="hidden md:inline-flex items-center gap-2 rounded-xl bg-gradient-to-b from-white to-white/90 text-slate-900 px-4 py-2 text-sm font-medium shadow-lg shadow-sky-500/10 ring-1 ring-white/70 hover:shadow-sky-500/20"
+            >
+              <Sparkles className="h-4 w-4" />
+              Get a demo
+            </motion.a>
+            <button className="md:hidden grid h-10 w-10 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10">
+              <Menu className="h-5 w-5 text-white" />
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Dark premium overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(2,6,23,0)_0%,rgba(2,6,23,0.6)_45%,rgba(2,6,23,0.9)_100%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 mix-blend-screen opacity-[0.08]" style={{background:"radial-gradient(1200px_400px_at_50%_-10%,#60a5fa33,transparent),radial-gradient(900px_300px_at_20%_10%,#a78bfa33,transparent)"}} />
-
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 h-full flex items-end pb-14">
+      {/* Hero content */}
+      <div className="mx-auto max-w-7xl px-6 pb-20 pt-16 md:pt-24">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="max-w-3xl"
@@ -46,6 +109,6 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </header>
   );
 }

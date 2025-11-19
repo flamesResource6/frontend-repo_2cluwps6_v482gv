@@ -1,4 +1,3 @@
-import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import UseCases from './components/UseCases';
@@ -8,7 +7,7 @@ import CTA from './components/CTA';
 function App() {
   return (
     <div className="min-h-screen bg-slate-950">
-      <Navbar />
+      {/* Integrated nav lives inside Hero */}
       <Hero />
       <Features />
       <UseCases />
