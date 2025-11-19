@@ -23,14 +23,14 @@ const tiers = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="relative bg-slate-950 py-20">
+    <section id="pricing" className="relative bg-slate-950 py-28">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center">
-          <h2 className="text-white text-3xl md:text-5xl font-bold">Simple, transparent pricing</h2>
-          <p className="mt-3 text-white/70">Start small or go big — we meet you where you are.</p>
+          <h2 className="text-white text-4xl md:text-6xl font-bold">Simple, transparent pricing</h2>
+          <p className="mt-4 text-white/70 text-lg">Start small or go big — we meet you where you are.</p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-7">
           {tiers.map((t, i) => (
             <motion.div
               key={t.name}
@@ -38,17 +38,17 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 flex flex-col"
+              className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-7 flex flex-col hover:bg-white/10 transition"
             >
-              <div className="text-white font-semibold">{t.name}</div>
-              <div className="mt-4 text-4xl font-extrabold text-white">{t.price}</div>
-              <div className="text-white/60 text-sm">{t.period}</div>
-              <ul className="mt-6 space-y-2 text-white/80 text-sm">
+              <div className="text-white font-semibold text-lg">{t.name}</div>
+              <div className="mt-5 text-5xl font-extrabold text-white">{t.price}</div>
+              <div className="text-white/60 text-base">{t.period}</div>
+              <ul className="mt-7 space-y-2.5 text-white/80 text-base">
                 {t.features.map(f => (
-                  <li key={f} className="flex gap-2"><span className="mt-1 h-1.5 w-1.5 rounded-full bg-fuchsia-400" />{f}</li>
+                  <li key={f} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-fuchsia-400" />{f}</li>
                 ))}
               </ul>
-              <motion.a href="#demo" whileHover={{ y: -2 }} className="mt-6 inline-flex justify-center rounded-full bg-white text-slate-900 px-5 py-2.5 text-sm font-semibold">
+              <motion.a href="#demo" whileHover={{ y: -2 }} className="mt-7 inline-flex justify-center rounded-2xl bg-white text-slate-900 px-6 py-3.5 text-base font-semibold">
                 Get started
               </motion.a>
             </motion.div>

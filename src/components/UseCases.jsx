@@ -21,13 +21,13 @@ const cases = [
 
 export default function UseCases() {
   return (
-    <section id="usecases" className="relative bg-slate-950 py-20">
+    <section id="usecases" className="relative bg-slate-950 py-28">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div className="grid md:grid-cols-2 gap-14 items-center">
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold text-white">Automation that fits your team</h2>
-            <p className="mt-3 text-white/70">We design around your stack and processes, not the other way around.</p>
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <h2 className="text-4xl md:text-6xl font-bold text-white">Automation that fits your team</h2>
+            <p className="mt-4 text-white/70 text-lg">We design around your stack and processes, not the other way around.</p>
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
               {cases.map((block, i) => (
                 <motion.div
                   key={block.name}
@@ -35,13 +35,13 @@ export default function UseCases() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.5 }}
-                  className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5"
+                  className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 hover:bg-white/10 transition"
                 >
-                  <div className="text-white font-semibold">{block.name}</div>
-                  <ul className="mt-2 space-y-1.5 text-white/70 text-sm">
+                  <div className="text-white font-semibold text-lg">{block.name}</div>
+                  <ul className="mt-3 space-y-2 text-white/70 text-base">
                     {block.items.map(item => (
                       <li key={item} className="flex gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-sky-400" />
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-400" />
                         {item}
                       </li>
                     ))}
@@ -51,14 +51,27 @@ export default function UseCases() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-6 rounded-3xl bg-gradient-to-tr from-fuchsia-500/10 to-sky-400/10 blur-2xl" />
-            <div className="relative aspect-[4/3] rounded-3xl bg-slate-900 ring-1 ring-white/10 p-6">
-              <div className="grid grid-cols-2 gap-3 h-full">
+            <div className="absolute -inset-8 rounded-3xl bg-gradient-to-tr from-fuchsia-500/10 to-cyan-400/10 blur-3xl" />
+            <motion.div
+              initial={{ opacity: 0.6 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="relative aspect-[4/3] rounded-3xl bg-slate-900 ring-1 ring-white/10 p-7"
+            >
+              <div className="grid grid-cols-2 gap-4 h-full">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="rounded-xl bg-white/5 ring-1 ring-white/10" />
+                  <motion.div
+                    key={i}
+                    initial={{ y: 8, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05, duration: 0.5 }}
+                    className="rounded-xl bg-white/5 ring-1 ring-white/10"
+                  />
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
