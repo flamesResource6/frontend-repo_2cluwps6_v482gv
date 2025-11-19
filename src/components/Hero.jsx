@@ -36,11 +36,11 @@ function DotsNetwork() {
       nodes.length = 0;
       const area = Math.max(1, width * height);
       // Density tuned for premium subtlety and perf
-      const baseCount = Math.round(Math.min(120, area / 12000));
+      const baseCount = Math.round(Math.min(150, area / 11000));
       for (let i = 0; i < baseCount; i++) {
         const x = Math.random() * width;
-        const y = Math.random() * height * 0.7; // keep below nav
-        const speed = 0.08 + Math.random() * 0.18;
+        const y = Math.random() * height * 0.8; // below nav but fuller coverage
+        const speed = 0.06 + Math.random() * 0.16;
         const angle = Math.random() * Math.PI * 2;
         nodes.push({
           x,
@@ -71,7 +71,7 @@ function DotsNetwork() {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const dist2 = dx * dx + dy * dy;
-          const max = 110; // connection radius
+          const max = 120; // connection radius
           if (dist2 < max * max) {
             const t = 1 - Math.sqrt(dist2) / max;
             ctx.globalAlpha = 0.05 + t * 0.12; // fade by distance
@@ -95,7 +95,7 @@ function DotsNetwork() {
       // soft glow accents sparsely
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
-      for (let i = 0; i < Math.min(6, nodes.length); i++) {
+      for (let i = 0; i < Math.min(8, nodes.length); i++) {
         const n = nodes[(i * 13) % nodes.length];
         const rad = n.r * 3;
         const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, rad);
@@ -116,8 +116,8 @@ function DotsNetwork() {
         // gentle wrap with damping to avoid edges feeling hard
         if (n.x < -10) n.x = width + 10;
         if (n.x > width + 10) n.x = -10;
-        if (n.y < -10) n.y = height * 0.7 + 10;
-        if (n.y > height * 0.7 + 10) n.y = -10;
+        if (n.y < -10) n.y = height * 0.8 + 10;
+        if (n.y > height * 0.8 + 10) n.y = -10;
       }
       draw();
       rafRef.current = requestAnimationFrame(step);
@@ -160,7 +160,7 @@ function DotsNetwork() {
 
 export default function Hero() {
   return (
-    <header className="relative isolate overflow-hidden">
+    <header className="relative isolate overflow-hidden min-h-[88vh] md:min-h-[92vh]">
       {/* Background: layered dark with aurora glows and grid */}
       <div className="absolute inset-0 -z-30 bg-[#0B0D10]" />
       <div
@@ -185,20 +185,86 @@ export default function Hero() {
       <DotsNetwork />
 
       {/* Soft bottom fade to visually merge with next section (no dividers) */}
-      <div className="absolute inset-x-0 bottom-0 h-64 -z-10 bg-gradient-to-t from-[#0B0D10] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-72 -z-10 bg-gradient-to-t from-[#0B0D10] to-transparent" />
 
-      {/* Animated aurora sweep with cyan+violet */}
+      {/* Animated aurora sweeps with cyan+violet */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -inset-x-40 -top-44 -z-10 h-[50vh]"
+        className="pointer-events-none absolute -inset-x-40 -top-56 -z-10 h-[70vh]"
         initial={{ opacity: 0 }}
         animate={{ opacity: [0.12, 0.24, 0.12] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
         style={{
           background:
             "conic-gradient(from 90deg at 50% 50%, rgba(34,211,238,0.14), rgba(167,139,250,0.14), rgba(124,58,237,0.12), transparent)",
-          filter: "blur(70px)",
+          filter: "blur(80px)",
         }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-1/4 -z-10 h-[50vh]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0.08, 0.18, 0.08] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+        style={{
+          background:
+            "radial-gradient(60%_60%_at_20%_30%, rgba(34,211,238,0.10), transparent), radial-gradient(50%_50%_at_80%_40%, rgba(167,139,250,0.10), transparent)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      {/* Floating bokeh orbs */}
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.35 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="absolute inset-0 -z-10 pointer-events-none"
+      >
+        <motion.span
+          className="absolute left-[10%] top-[35%] h-40 w-40 rounded-full"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(34,211,238,0.18), rgba(34,211,238,0) 70%)",
+            filter: "blur(8px)",
+          }}
+          animate={{ y: [0, -20, 0], x: [0, 10, 0], rotate: [0, 3, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.span
+          className="absolute right-[15%] top-[20%] h-56 w-56 rounded-full"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(167,139,250,0.18), rgba(167,139,250,0) 70%)",
+            filter: "blur(10px)",
+          }}
+          animate={{ y: [0, 15, 0], x: [0, -12, 0], rotate: [0, -2, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.span
+          className="absolute left-1/2 top-[55%] h-28 w-28 -translate-x-1/2 rounded-full"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(255,255,255,0.14), rgba(255,255,255,0) 70%)",
+            filter: "blur(6px)",
+          }}
+          animate={{ y: [0, -12, 0], x: [0, 6, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
+
+      {/* Light sweep beam */}
+      <motion.div
+        aria-hidden
+        className="absolute -left-1/3 top-1/3 -z-10 h-40 w-[160%] rotate-[-6deg]"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), rgba(34,211,238,0.08), transparent)",
+          filter: "blur(12px)",
+        }}
+        initial={{ x: "-10%", opacity: 0.25 }}
+        animate={{ x: ["-10%", "10%", "-10%"], opacity: [0.2, 0.32, 0.2] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Integrated Navbar */}
@@ -253,7 +319,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Hero content – slightly reduced scale and blended with background */}
+      {/* Hero content – same content size, more vertical real estate */}
       <div className="mx-auto max-w-7xl px-6 pb-20 pt-16 md:pt-20">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
